@@ -1,0 +1,26 @@
+name: Deploy to Alibaba Cloud  # 1. Workflow Name
+
+on:  # 2. Triggering Events
+  push:
+    branches:
+      - main  # 3. Trigger only on pushes to the 'main' branch
+
+jobs:  # 4. Define the jobs to run
+  deploy:  # 5. Name of the job (you can have multiple jobs)
+    runs-on: ubuntu-latest  # 6. Where to run the job (GitHub's servers)
+    steps:  # 7. List of steps within the job
+      - uses: actions/checkout@v3  # 8. Step: Checkout code
+      - name: Deploy to Alibaba Cloud  # 9. Step: Deploy
+        uses: appleboy/ssh-action@v0.1.10  # 10. Action: SSH
+        with:  # 11. Configure the SSH Action
+          host: ${{ secrets.HOST }}  # 12. Host (your server's IP)
+          username: www-data  # 13. Username on the server
+          key: ${{ secrets.KEY }}  # 14. SSH private key
+          port: 22  # 15. SSH port
+          script: |  # 16. Commands to run on the server
+            cd /var/www/qingx.uk
+            git pull origin main
+            # If you have a build process, add it here:
+            # npm run build
+            # Or
+            # hugo
