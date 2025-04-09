@@ -1,4 +1,4 @@
-name: Test SSH Connection (Debug)
+name: Test SSH Connection (Extreme Debug)
 
 on:
   push:
@@ -11,20 +11,19 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Debug Network and Secrets
+      - name: Debug SSH Configuration
         run: |
-          echo "--- DEBUGGING SSH CONNECTION ---"
-          echo "Host Secret: ${{ secrets.HOST }}"
+          echo "--- DEBUGGING SSH CONFIGURATION ---"
+          echo "Host Secret (Length): $(echo "${{ secrets.HOST }}" | wc -c)"
+          echo "Host Secret Value: ${{ secrets.HOST }}"
           echo "Username: www-data"
           echo "Port: 22"
+          echo "Key Secret (Length): $(echo "${{ secrets.KEY }}" | wc -c)"
           echo "Key First 20 chars: $(echo "${{ secrets.KEY }}" | head -c 20)"
           echo "Key Last 20 chars: $(echo "${{ secrets.KEY }}" | tail -c 20)"
-          echo "Pinging..."
-          ping -c 3 ${{ secrets.HOST }}
-          echo "Connecting to port 22..."
-          nc -zv ${{ secrets.HOST }} 22
+          echo "--- END DEBUGGING ---"
 
-      - name: Deploy to Alibaba Cloud (SSH)
+      - name: Test SSH Connection
         uses: appleboy/ssh-action@v0.1.10
         with:
           host: ${{ secrets.HOST }}
@@ -32,6 +31,6 @@ jobs:
           key: ${{ secrets.KEY }}
           port: 22
           script: |
-            echo "Connected successfully!"
+            echo "Connected to server!"
             pwd
             ls -la /var/www/
