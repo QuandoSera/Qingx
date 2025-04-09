@@ -1,0 +1,43 @@
+# System files
+.DS_Store          # macOS system file
+Thumbs.db         # Windows thumbnail cache
+desktop.ini       # Windows desktop configuration
+
+# Node.js (if applicable)
+node_modules/     # Dependencies installed by npm or yarn
+
+# Temporary files
+*.tmp
+*.swp             # Vim swap files
+*.swo             # Vim swap files
+*.bak             # Backup files
+
+# Log files
+*.log
+
+# Cache directories
+cache/
+tmp/
+temp/
+
+# IDE specific
+.idea/           # IntelliJ IDEA
+.vscode/         # VS Code
+*.suo           # Visual Studio solution user options
+*.user          # Visual Studio user files
+*.sln.docstates # Visual Studio solution user options
+
+# Sensitive information (if any)
+config.php      # Or any file with sensitive configuration
+.env            # Environment variables (if you use dotenv)
+
+# Build output (if you have a build process)
+dist/           # Or build/, public/, etc., depending on your setup
+build/
+
+# Package manager lock files (if you don't want to track them)
+package-lock.json
+yarn.lock
+
+# OS generated files
+._* # Resource forks on macOS
