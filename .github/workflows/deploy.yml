@@ -1,36 +1,28 @@
-name: Test SSH Connection (Extreme Debug)
+name: Deploy to Alibaba Cloud
 
 on:
   push:
     branches:
-      - main
+      - main  # Or your main branch
 
 jobs:
-  test:
+  deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
 
-      - name: Debug SSH Configuration
-        run: |
-          echo "--- DEBUGGING SSH CONFIGURATION ---"
-          echo "Host Secret (Length): $(echo "${{ secrets.HOST }}" | wc -c)"
-          echo "Host Secret Value: ${{ secrets.HOST }}"
-          echo "Username: www-data"
-          echo "Port: 22"
-          echo "Key Secret (Length): $(echo "${{ secrets.KEY }}" | wc -c)"
-          echo "Key First 20 chars: $(echo "${{ secrets.KEY }}" | head -c 20)"
-          echo "Key Last 20 chars: $(echo "${{ secrets.KEY }}" | tail -c 20)"
-          echo "--- END DEBUGGING ---"
-
-      - name: Test SSH Connection
+      - name: Deploy to Alibaba Cloud
         uses: appleboy/ssh-action@v0.1.10
         with:
-          host: ${{ secrets.HOST }}
+          host: ${{ secrets.HOST }}      # Your server's IP
           username: www-data
-          key: ${{ secrets.KEY }}
+          key: ${{ secrets.KEY }}       # The private key
           port: 22
           script: |
-            echo "Connected to server!"
-            pwd
-            ls -la /var/www/
+            cd /var/www/qingx.uk
+            git pull origin main
+            # If you have a build process, add it here:
+            # npm run build
+            # Or
+            # hugo
+            sudo systemctl reload nginx
